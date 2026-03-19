@@ -3,128 +3,196 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Beni Affet Sevgilim</title>
+    <title>Sana Özel | Özür Dilerim</title>
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.5.1/dist/confetti.browser.min.js"></script>
     <style>
+        :root {
+            --primary: #ff4d6d;
+            --secondary: #ff758f;
+            --glass: rgba(255, 255, 255, 0.1);
+        }
+
         body {
             margin: 0;
-            padding: 0;
+            height: 100vh;
             display: flex;
             justify-content: center;
             align-items: center;
-            height: 100vh;
-            background: linear-gradient(135deg, #ff9a9e 0%, #fecfef 100%);
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #0b090a; /* Modern koyu tema */
+            font-family: 'Poppins', sans-serif;
             overflow: hidden;
-            color: #444;
+            perspective: 1000px;
         }
 
-        .container {
+        /* Arka plan animasyonlu gradient halkaları */
+        .bg-glow {
+            position: absolute;
+            width: 500px;
+            height: 500px;
+            background: radial-gradient(circle, rgba(255, 77, 109, 0.2) 0%, transparent 70%);
+            border-radius: 50%;
+            filter: blur(50px);
+            animation: pulse 8s infinite alternate;
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1) translate(-10%, -10%); }
+            100% { transform: scale(1.5) translate(10%, 10%); }
+        }
+
+        .card {
+            background: var(--glass);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            padding: 50px;
+            border-radius: 30px;
             text-align: center;
-            background: rgba(255, 255, 255, 0.85);
-            padding: 40px;
-            border-radius: 20px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
-            backdrop-filter: blur(10px);
-            max-width: 500px;
-            z-index: 10;
+            box-shadow: 0 25px 50px rgba(0,0,0,0.5);
+            max-width: 450px;
+            transform-style: preserve-3d;
+            animation: float 4s ease-in-out infinite;
+            z-index: 2;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px) rotateX(5deg); }
+            50% { transform: translateY(-20px) rotateX(-5deg); }
         }
 
         h1 {
-            color: #d63384;
-            font-size: 2.5rem;
-            margin-bottom: 20px;
+            color: #fff;
+            font-size: 2.8rem;
+            margin-bottom: 10px;
+            text-shadow: 0 0 20px rgba(255, 77, 109, 0.5);
         }
 
         p {
-            font-size: 1.2rem;
-            line-height: 1.6;
+            color: #e0e0e0;
+            font-size: 1.1rem;
+            line-height: 1.8;
+            margin-bottom: 30px;
         }
 
-        .buttons {
-            margin-top: 30px;
-        }
-
-        button {
-            padding: 12px 25px;
-            font-size: 1rem;
-            border: none;
-            border-radius: 25px;
-            cursor: pointer;
-            transition: transform 0.2s;
-            margin: 0 10px;
-        }
-
-        #yesBtn {
-            background-color: #d63384;
-            color: white;
-        }
-
-        #noBtn {
-            background-color: #6c757d;
-            color: white;
+        .btn-group {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
             position: relative;
         }
 
-        /* Arka plan kalpleri */
-        .heart {
-            position: absolute;
-            color: rgba(214, 51, 132, 0.2);
-            font-size: 20px;
-            animation: drift linear infinite;
-            z-index: 1;
+        button {
+            padding: 15px 35px;
+            border-radius: 50px;
+            border: none;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            font-size: 1rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
         }
 
-        @keyframes drift {
-            from { transform: translateY(100vh) rotate(0deg); }
-            to { transform: translateY(-10vh) rotate(360deg); }
+        #yesBtn {
+            background: linear-gradient(45deg, var(--primary), var(--secondary));
+            color: white;
+            box-shadow: 0 10px 20px rgba(255, 77, 109, 0.4);
+        }
+
+        #yesBtn:hover {
+            transform: scale(1.1) translateY(-5px);
+            box-shadow: 0 15px 30px rgba(255, 77, 109, 0.6);
+        }
+
+        #noBtn {
+            background: transparent;
+            color: #fff;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+
+        /* Kalp Yağmuru */
+        .heart-particle {
+            position: absolute;
+            pointer-events: none;
+            animation: fall 3s linear forwards;
+        }
+
+        @keyframes fall {
+            to { transform: translateY(110vh) rotate(360deg); }
         }
     </style>
 </head>
 <body>
 
-    <div class="container">
-        <h1 id="header">Beni Affeder Misin? 🥺</h1>
-        <p id="message">Seni kırdığım için gerçekten çok üzgünüm. Sen benim dünyadaki en değerli varlığımsın. Lütfen bu küçük hatamı kalbinde büyütme...</p>
+    <div class="bg-glow"></div>
+
+    <div class="card">
+        <div style="font-size: 60px; margin-bottom: 20px;">🥀</div>
+        <h1 id="title">Beni Affet...</h1>
+        <p id="desc">Seni kırmak, kendime yapabileceğim en büyük kötülüktü. Gökyüzündeki yıldızlar kadar üzgünüm. Aramızdaki bu soğukluğu eritmemize izin verir misin?</p>
         
-        <div class="buttons">
-            <button id="yesBtn" onclick="accepted()">Evet, Affettim ❤️</button>
-            <button id="noBtn" onmouseover="moveButton()">Hayır!</button>
+        <div class="btn-group">
+            <button id="yesBtn" onclick="celebrate()">Evet ❤️</button>
+            <button id="noBtn" onmouseover="dodge()">Hayır</button>
         </div>
     </div>
 
     <script>
-        // Arka plana rastgele kalpler ekleme
-        function createHeart() {
-            const heart = document.createElement('div');
-            heart.classList.add('heart');
-            heart.innerHTML = '❤️';
-            heart.style.left = Math.random() * 100 + 'vw';
-            heart.style.animationDuration = Math.random() * 3 + 2 + 's';
-            heart.style.opacity = Math.random();
-            document.body.appendChild(heart);
-
-            setTimeout(() => {
-                heart.remove();
-            }, 5000);
-        }
-        setInterval(createHeart, 300);
-
-        // "Hayır" butonunu kaçırma fonksiyonu
-        function moveButton() {
+        // Hayır butonunu imkansız hale getiren fonksiyon
+        function dodge() {
             const btn = document.getElementById('noBtn');
             const x = Math.random() * (window.innerWidth - btn.offsetWidth);
             const y = Math.random() * (window.innerHeight - btn.offsetHeight);
-            btn.style.position = 'absolute';
+            
+            btn.style.position = 'fixed';
             btn.style.left = x + 'px';
             btn.style.top = y + 'px';
         }
 
-        // Kabul edince olacaklar
-        function accepted() {
-            document.getElementById('header').innerText = "Seni Çok Seviyorum! 🥰";
-            document.getElementById('message').innerText = "Dünyanın en mutlu insanı şu an benim. Bir daha seni asla üzmeyeceğim, söz veriyorum!";
-            document.querySelector('.buttons').style.display = 'none';
+        // Evet'e basınca havai fişek ve kutlama
+        function celebrate() {
+            // Konfeti efekti
+            const duration = 5 * 1000;
+            const animationEnd = Date.now() + duration;
+            const defaults = { startVelocity: 30, spread: 360, ticks: 60, zIndex: 0 };
+
+            function randomInRange(min, max) {
+              return Math.random() * (max - min) + min;
+            }
+
+            const interval = setInterval(function() {
+              const timeLeft = animationEnd - Date.now();
+
+              if (timeLeft <= 0) {
+                return clearInterval(interval);
+              }
+
+              const particleCount = 50 * (timeLeft / duration);
+              confetti(Object.assign({}, defaults, { particleCount, origin: { x: randomInRange(0.1, 0.3), y: Math.random() - 0.2 } }));
+              confetti(Object.assign({}, defaults, { particleCount, origin: { x: randomInRange(0.7, 0.9), y: Math.random() - 0.2 } }));
+            }, 250);
+
+            // İçeriği güncelle
+            document.getElementById('title').innerText = "Teşekkür Ederim! ✨";
+            document.getElementById('desc').innerText = "Dünyanın en şanslı insanıyım çünkü yanımda sen varsın. Seni her şeyden çok seviyorum!";
+            document.querySelector('.btn-group').style.display = 'none';
+            document.querySelector('.card').style.animation = 'none';
+            document.querySelector('.card').style.transform = 'scale(1.1)';
+            document.body.style.background = 'linear-gradient(135deg, #1a0a0c 0%, #4a0e1c 100%)';
         }
+
+        // Arka plan için sürekli uçuşan küçük kalpler
+        setInterval(() => {
+            const heart = document.createElement('div');
+            heart.innerHTML = '❤️';
+            heart.className = 'heart-particle';
+            heart.style.left = Math.random() * 100 + 'vw';
+            heart.style.top = '-5vh';
+            heart.style.opacity = Math.random();
+            heart.style.fontSize = (Math.random() * 20 + 10) + 'px';
+            document.body.appendChild(heart);
+            setTimeout(() => heart.remove(), 3000);
+        }, 400);
     </script>
 </body>
 </html>
