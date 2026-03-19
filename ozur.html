@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Beni Affet Sevgilim</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background: linear-gradient(135deg, #ff9a9e 0%, #fecfef 100%);
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            overflow: hidden;
+            color: #444;
+        }
+
+        .container {
+            text-align: center;
+            background: rgba(255, 255, 255, 0.85);
+            padding: 40px;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            backdrop-filter: blur(10px);
+            max-width: 500px;
+            z-index: 10;
+        }
+
+        h1 {
+            color: #d63384;
+            font-size: 2.5rem;
+            margin-bottom: 20px;
+        }
+
+        p {
+            font-size: 1.2rem;
+            line-height: 1.6;
+        }
+
+        .buttons {
+            margin-top: 30px;
+        }
+
+        button {
+            padding: 12px 25px;
+            font-size: 1rem;
+            border: none;
+            border-radius: 25px;
+            cursor: pointer;
+            transition: transform 0.2s;
+            margin: 0 10px;
+        }
+
+        #yesBtn {
+            background-color: #d63384;
+            color: white;
+        }
+
+        #noBtn {
+            background-color: #6c757d;
+            color: white;
+            position: relative;
+        }
+
+        /* Arka plan kalpleri */
+        .heart {
+            position: absolute;
+            color: rgba(214, 51, 132, 0.2);
+            font-size: 20px;
+            animation: drift linear infinite;
+            z-index: 1;
+        }
+
+        @keyframes drift {
+            from { transform: translateY(100vh) rotate(0deg); }
+            to { transform: translateY(-10vh) rotate(360deg); }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h1 id="header">Beni Affeder Misin? 🥺</h1>
+        <p id="message">Seni kırdığım için gerçekten çok üzgünüm. Sen benim dünyadaki en değerli varlığımsın. Lütfen bu küçük hatamı kalbinde büyütme...</p>
+        
+        <div class="buttons">
+            <button id="yesBtn" onclick="accepted()">Evet, Affettim ❤️</button>
+            <button id="noBtn" onmouseover="moveButton()">Hayır!</button>
+        </div>
+    </div>
+
+    <script>
+        // Arka plana rastgele kalpler ekleme
+        function createHeart() {
+            const heart = document.createElement('div');
+            heart.classList.add('heart');
+            heart.innerHTML = '❤️';
+            heart.style.left = Math.random() * 100 + 'vw';
+            heart.style.animationDuration = Math.random() * 3 + 2 + 's';
+            heart.style.opacity = Math.random();
+            document.body.appendChild(heart);
+
+            setTimeout(() => {
+                heart.remove();
+            }, 5000);
+        }
+        setInterval(createHeart, 300);
+
+        // "Hayır" butonunu kaçırma fonksiyonu
+        function moveButton() {
+            const btn = document.getElementById('noBtn');
+            const x = Math.random() * (window.innerWidth - btn.offsetWidth);
+            const y = Math.random() * (window.innerHeight - btn.offsetHeight);
+            btn.style.position = 'absolute';
+            btn.style.left = x + 'px';
+            btn.style.top = y + 'px';
+        }
+
+        // Kabul edince olacaklar
+        function accepted() {
+            document.getElementById('header').innerText = "Seni Çok Seviyorum! 🥰";
+            document.getElementById('message').innerText = "Dünyanın en mutlu insanı şu an benim. Bir daha seni asla üzmeyeceğim, söz veriyorum!";
+            document.querySelector('.buttons').style.display = 'none';
+        }
+    </script>
+</body>
+</html>
